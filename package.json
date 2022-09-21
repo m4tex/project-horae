@@ -1,0 +1,28 @@
+{
+  "name": "project-horae",
+  "version": "1.0.0",
+  "description": "Steam hour bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "nodemon bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m4tex/project-horae.git"
+  },
+  "keywords": [
+    "Steam",
+    "NodeJS"
+  ],
+  "author": "m4tex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m4tex/project-horae/issues"
+  },
+  "homepage": "https://github.com/m4tex/project-horae#readme",
+  "dependencies": {
+    "@types/steam-user": "^4.23.2",
+    "steam-session": "^0.0.2-alpha",
+    "steam-user": "^4.25.0"
+  }
+}
