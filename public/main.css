@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: dimgray;
+}
+
+.mouseFollower {
+    position: fixed;
+
+    width: 10px;
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+    background-color: aliceblue;
+
+    transition: scale ease-in-out;
+
+    will-change: scale, width;
+}
