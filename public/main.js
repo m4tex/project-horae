@@ -1,9 +1,6 @@
 "use strict";
 
-let mouseCircle;
-
-const transitionDuration = 1000;
-
+//Colors picked from http://colorhunt.co
 const colorPalette = [
     { circle: '#533483', bg: '#16213E' },
     { circle: '#42032C', bg: '#533483' },
@@ -15,12 +12,13 @@ const colorPalette = [
     { circle: '#6FEDD6', bg: '#EC7272' },
     { circle: '#16213E', bg: '#6FEDD6' },
 ];
+const circleAnimDuration = 1000;
 
 let paletteIndex = 0;
+let mouseCircle;
 
 window.onload = () => {
     document.body.style.backgroundColor = colorPalette[paletteIndex].bg;
-    document.body.style.transitionDelay = transitionDuration + 'ms';
 
     mouseCircle = document.createElement("div");
     mouseCircle.className = 'mouseFollower';
@@ -37,19 +35,48 @@ window.onload = () => {
 
     document.addEventListener('mousemove', followMouse);
 
-    function expandAndColor(e) {
+    function expandAndColor() {
+        //Duplicate mouse circle
         let expander = mouseCircle.cloneNode();
         expander.style.top = mouseCircle.style.top;
         expander.style.left = mouseCircle.style.left;
-        expander.style.transitionDuration = transitionDuration + 'ms';
         expander.style.zIndex = '0';
-        expander.style.scale = (Math.sqrt(window.innerWidth*window.innerWidth + window.innerHeight*window.innerHeight)*2)/expander.getBoundingClientRect().width + '';
         document.body.appendChild(expander);
 
-        paletteIndex = +(paletteIndex < colorPalette.length) * (paletteIndex + 1);
+        //Animation vars
+        let start;
+        const endScale = (Math.sqrt(window.innerWidth*window.innerWidth + window.innerHeight*window.innerHeight)*2)/expander.getBoundingClientRect().width;
+
+        //Animation frame
+        function animationStep(timestamp) {
+            if(start === undefined) start = timestamp;
+
+            const elapsed = timestamp - start;
+
+            let scale = easeOutQuad(elapsed, 1, endScale, circleAnimDuration);
+
+            expander.style.transform = `scale(${scale})`;
+
+            if(elapsed < circleAnimDuration) {
+                window.requestAnimationFrame(animationStep);
+            } else {
+                expander.remove();
+                document.body.style.backgroundColor = colorPalette[paletteIndex].bg;
+            }
+        }
+
+        //Sets paletteIndex to 0 when it exceeds the array length of colorPalette
+        paletteIndex = +(paletteIndex + 1 < colorPalette.length) * (paletteIndex + 1);
 
         mouseCircle.style.backgroundColor = colorPalette[paletteIndex].circle;
-        document.body.style.backgroundColor = colorPalette[paletteIndex].bg;
+
+        //Triggers the animation
+        window.requestAnimationFrame(animationStep);
+    }
+
+    //Ease out function taken from: https://spicyyoghurt.com/tools/easing-functions
+    function easeOutQuad (timeDelta, startVal, endValDelta, duration) {
+        return -endValDelta * (timeDelta /= duration) * (timeDelta - 2) + startVal;
     }
 
     document.addEventListener('mousedown', expandAndColor);

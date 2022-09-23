@@ -4,8 +4,8 @@
   "description": "Steam hour bot",
   "main": "src/bot.js",
   "scripts": {
-    "test": "nodemon src/index.js",
-    "farm" : "node src/bot.js"
+    "test": "sudo nodemon src/index.js",
+    "farm": "node src/bot.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/steam-user": "^4.23.2",
     "express": "^4.18.1",
+    "openurl": "^1.1.1",
     "steam-session": "^0.0.2-alpha",
     "steam-user": "^4.25.0"
   }

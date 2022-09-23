@@ -10,14 +10,9 @@ body {
 
 .mouseFollower {
     position: fixed;
-
     width: 10px;
     aspect-ratio: 1;
-
     border-radius: 50%;
-    background-color: aliceblue;
-
-    transition: scale ease-in-out;
-
-    will-change: scale, width;
+    /*will-change: width;*/
+    image-rendering: crisp-edges;
 }
