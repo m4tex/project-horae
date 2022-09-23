@@ -14,13 +14,13 @@ const colorPalette = [
     { circle: '#EC7272', bg: '#FAF4B7' },
     { circle: '#6FEDD6', bg: '#EC7272' },
     { circle: '#16213E', bg: '#6FEDD6' },
-
 ];
 
 let paletteIndex = 0;
 
 window.onload = () => {
     document.body.style.backgroundColor = colorPalette[paletteIndex].bg;
+    document.body.style.transitionDelay = transitionDuration + 'ms';
 
     mouseCircle = document.createElement("div");
     mouseCircle.className = 'mouseFollower';
@@ -43,18 +43,13 @@ window.onload = () => {
         expander.style.left = mouseCircle.style.left;
         expander.style.transitionDuration = transitionDuration + 'ms';
         expander.style.zIndex = '0';
-
-        document.body.appendChild(expander);
         expander.style.scale = (Math.sqrt(window.innerWidth*window.innerWidth + window.innerHeight*window.innerHeight)*2)/expander.getBoundingClientRect().width + '';
-        if (++paletteIndex >= colorPalette.length) {
-            paletteIndex = 0;
-        }
-        mouseCircle.style.backgroundColor = colorPalette[paletteIndex].circle;
+        document.body.appendChild(expander);
 
-        setTimeout(() => {
-            document.body.style.backgroundColor = colorPalette[paletteIndex].bg;
-            expander.remove();
-        }, transitionDuration);
+        paletteIndex = +(paletteIndex < colorPalette.length) * (paletteIndex + 1);
+
+        mouseCircle.style.backgroundColor = colorPalette[paletteIndex].circle;
+        document.body.style.backgroundColor = colorPalette[paletteIndex].bg;
     }
 
     document.addEventListener('mousedown', expandAndColor);

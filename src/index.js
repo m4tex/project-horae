@@ -1,14 +1,17 @@
 //Starts the bot module and gets the function for command calls from its scope
 // const executeAsBot = require('./bot');
-const config = require('../store/config.json');
+let config;
+try {
+    config = require('../store/config.json');
+}
+catch (e) {
+    console.log('No config found');
+}
+
 const fs = require("fs");
 const express = require('express');
 const app = express();
 const port = 420;
-
-if (Object.values(config).filter(x => x === '') === Object.values(config)) {
-    //Config not set up
-}
 
 app.use(express.json());
 app.use(express.static('public'));
