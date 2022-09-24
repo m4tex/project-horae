@@ -17,16 +17,15 @@ body {
     box-shadow: 0 0 4px -1px black;
 }
 
-.tint {
+#tint {
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: 1;
-
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.header {
+header {
     display: flex;
     position: fixed;
 
@@ -42,6 +41,14 @@ body {
     box-shadow: 0 0 6px -2px black;
 
     z-index: 10;
+}
+
+#anim-switch-label {
+    position: absolute;
+    left: 35px;
+    color: azure;
+    font-family: cursive;
+    font-weight: bold;
 }
 
 .logo {
@@ -80,4 +87,25 @@ body {
 
 .author:hover {
     transform: scale(110%);
+}
+
+main {
+    position: absolute;
+    display: flex;
+
+    gap: 8px;
+
+    width: 1250px;
+    height: 850px;
+
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 2;
+}
+
+section {
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.2);
 }

@@ -35,8 +35,13 @@ app.post('/api/command', (req, res) => {
 
 app.post('/api/config', (req, res) => {
     fs.writeFileSync('./config.json', req.body.config);
-})
+});
 
 app.get('/api/config', (req, res) => {
     res.send(config);
-})
+});
+
+//Meant to be called multiple times a second
+app.get('/api/console', (req, res) => {
+
+});
