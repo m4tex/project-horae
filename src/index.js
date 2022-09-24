@@ -10,7 +10,7 @@ catch (e) {
     console.log('No config found');
 }
 
-const { exec } = require('child_process');
+// const { exec } = require('child_process');
 const fs = require("fs");
 const express = require('express');
 const app = express();
@@ -29,14 +29,14 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/guide', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
-});
-
 app.post('/api/command', (req, res) => {
     // executeAsBot(req.body.command);
 });
 
 app.post('/api/config', (req, res) => {
     fs.writeFileSync('./config.json', req.body.config);
+})
+
+app.get('/api/config', (req, res) => {
+    res.send(config);
 })

@@ -17,13 +17,15 @@ const circleAnimDuration = 1000;
 let paletteIndex = 0;
 let mouseCircle;
 
-window.onload = () => {
+let botConfig;
+
+function rippleCircleFollowerInit() {
     document.body.style.backgroundColor = colorPalette[paletteIndex].bg;
 
     mouseCircle = document.createElement("div");
     mouseCircle.className = 'mouseFollower';
     mouseCircle.style.backgroundColor = colorPalette[paletteIndex].circle;
-    mouseCircle.style.zIndex = '2';
+    mouseCircle.style.zIndex = '25';
 
     document.body.appendChild(mouseCircle);
 
@@ -41,6 +43,7 @@ window.onload = () => {
         expander.style.top = mouseCircle.style.top;
         expander.style.left = mouseCircle.style.left;
         expander.style.zIndex = '0';
+        expander.style.boxShadow = 'none';
         document.body.appendChild(expander);
 
         //Animation vars
@@ -80,4 +83,10 @@ window.onload = () => {
     }
 
     document.addEventListener('mousedown', expandAndColor);
+}
+
+window.onload = async () => {
+    rippleCircleFollowerInit();
+    botConfig = await fetch('http://localhost:420').catch(e => console.log(e));
+    console.log(botConfig.body);
 }
