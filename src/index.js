@@ -1,5 +1,5 @@
 //Starts the bot module and gets the function for command calls from its scope
-// const executeAsBot = require('./bot');'
+// const executeAsBot = require('./bot');
 
 //Not the best option for checking whether the file exists or not, but it works good enough...
 let config;
@@ -44,4 +44,8 @@ app.get('/api/config', (req, res) => {
 //Meant to be called multiple times a second
 app.get('/api/console', (req, res) => {
 
+});
+
+app.post('/api/auth', (req,res) => {
+    console.log(req.body);
 });

@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&family=Inter+Tight:wght@600&display=swap" rel="stylesheet">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <title>Mxa Steam Tools</title>
     <link rel="stylesheet" href="main.css">
     <script src="background-animation.js"></script>
@@ -16,7 +16,7 @@
     <noscript>Your browser doesn't support javascript, or you have it disabled. This site needs js to communicate with the bot (and show cool effects :>)</noscript>
     <div id="tint"></div>
     <header>
-        <p class="logo">Mxa Bot</p>
+        <h1 class="logo">Mxa Bot</h1>
         <label for="anim-switch" id="anim-switch-label">
             <input type="checkbox" id="anim-switch" onchange="handleAnimationSwitch(this.checked)">
             &nbspDisable background animation
@@ -24,17 +24,38 @@
     </header>
     <main>
         <section>
-
+            <p class="section-modal" visible="true">Coming Soon</p>
         </section>
         <section>
 
         </section>
         <section>
+            <h2>Authentication</h2>
+            <h3>This section authenticates your steam credentials and stores the refresh token
+            for automatic login. Once your token is stored you won't have to log in until the token
+            expires (around 3 months)</h3>
 
+            <p class="section-modal" style="color:green" visible="false">Authenticated</p>
+            <!-- Accessed and handled from the main.js -->
+            <form action="/api/auth" method="post">
+                <label for="login">
+                    Login
+                    <input id="login" type="text" placeholder="Login" name="login" required>
+                </label>
+                <label for="pword">
+                    Password
+                    <input id="pword" type="password" placeholder="Password" name="pword" required>
+                </label>
+                <label for="guard">
+                    Steam Guard (Auth first)
+                    <input id="guard" type="text" placeholder="Steam Guard" name="guard" disabled required>
+                </label>
+                <button type="submit" value="Login">Login</button>
+            </form>
         </section>
     </main>
     <footer>
-
+        <a target="_blank" href="https://steamcommunity.com/id/m4tex/">Made by m4tex#5886</a>
     </footer>
 </body>
 </html>

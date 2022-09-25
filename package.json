@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/m4tex/project-horae#readme",
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/steam-user": "^4.23.2",
     "express": "^4.18.1",
     "openurl": "^1.1.1",
