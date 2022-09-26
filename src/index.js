@@ -1,5 +1,5 @@
 //Starts the bot module and gets the function for command calls from its scope
-// const executeAsBot = require('./bot');
+const { executeAsBot, botExec, logOnWithTokenFile} = require('./bot');
 
 //Not the best option for checking whether the file exists or not, but it works good enough...
 let config;
@@ -7,11 +7,14 @@ try {
     config = require('../store/config.json');
 }
 catch (e) {
-    console.log('No config found');
+    if (e.code === 'MODULE_NOT_FOUND')
+        console.log('No config found');
+    else throw e;
 }
 
 // const { exec } = require('child_process');
 const fs = require("fs");
+const path = require("path");
 const express = require('express');
 const app = express();
 const port = 420;
@@ -34,18 +37,18 @@ app.post('/api/command', (req, res) => {
 });
 
 app.post('/api/config', (req, res) => {
-    fs.writeFileSync('./config.json', req.body.config);
-});
-
-app.get('/api/config', (req, res) => {
-    res.send(config);
+    console.log('config');
+    fs.writeFileSync(path.join(__dirname, '../store/config.json'), JSON.stringify(req.body));
+    res.send();
 });
 
 //Meant to be called multiple times a second
-app.get('/api/console', (req, res) => {
+// app.get('/api/console', (req, res) => {
+//
+// });
 
-});
+app.get('/api/auth', async (req,res) => {
+    console.log('loggin in')
+    logOnWithTokenFile(res);
 
-app.post('/api/auth', (req,res) => {
-    console.log(req.body);
 });

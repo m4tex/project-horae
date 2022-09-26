@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&family=Inter+Tight:wght@600&display=swap" rel="stylesheet">
@@ -31,13 +30,14 @@
         </section>
         <section>
             <h2>Authentication</h2>
-            <h3>This section authenticates your steam credentials and stores the refresh token
-            for automatic login. Once your token is stored you won't have to log in until the token
-            expires (around 3 months)</h3>
+            <h3>This section authenticates your Steam credentials and stores the resulting token
+            for automatic login. Once your token is stored you won't have to log in again until the token
+            expires (around 3 months).</h3>
 
             <p class="section-modal" style="color:green" visible="false">Authenticated</p>
             <!-- Accessed and handled from the main.js -->
-            <form action="/api/auth" method="post">
+            <p class="auth-msg">Failed to auth/login, check your credentials and try again</p>
+            <form>
                 <label for="login">
                     Login
                     <input id="login" type="text" placeholder="Login" name="login" required>

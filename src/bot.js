@@ -1,11 +1,8 @@
 //#region imports and inits
-module.exports = executeAsBot;
-
 "use strict";
 
 const fs = require('fs');
 const path = require("path");
-const config = require('../store/config.json');
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -18,38 +15,65 @@ const SteamUser = require('steam-user');
 let client = new SteamUser();
 
 let token;
+let authRes; //temporary
+
+module.exports = {
+    client,
+    session,
+    logOnWithTokenFile
+};
 //#endregion
 
-async function logOnWithTokenFile() {
+async function logOnWithTokenFile(res) {
+    res.send({"hewwow": "OWO"});
     try {
         token = fs.readFileSync(path.join(__dirname, '../store/token')).toString();
+        client.logOn({"refreshToken" : token});
+        console.log('Logging in as ' + config.user);
     } catch (err) {
-        console.log('No token file found.');
-        await authenticate();
-        logOnWithTokenFile();
-        return;
+        if (err.code === 'ENOENT') {
+            console.log('No token file found.');
+            const config = require('../store/config.json');
+            authRes = res;
+            if (await authenticate(config)) {
+                logOnWithTokenFile(res);
+            }
+        }
+        else {
+            console.log('unexpected/unhandled module err');
+            throw err;
+        }
     }
-    client.logOn({"refreshToken" : token});
-    console.log('Logging in as ' + config.user);
 }
 
-async function authenticate() {
-    let initialRes = await session.startWithCredentials({
-        "accountName": config.user,
-        "password": config.pword
-    });
+async function authenticate(credentials) {
+    let initialRes
+    try {
+        initialRes = await session.startWithCredentials({
+            "accountName": credentials.user,
+            "password": credentials.pword
+        });
+    }
+    catch(err) {
+        authRes.send({ "ERR" : "AUTH_FAILED" })
+        return false;
+    }
 
     if (initialRes.validActions.find(action => action.type === SteamSession.EAuthSessionGuardType.DeviceCode)) {
-        readline.question("Input Steam Guard Code: ", code => {
-            session.submitSteamGuardCode(code);
+        readline.question("Input Steam Guard Code: ", async code => {
+            await session.submitSteamGuardCode(code);
         });
+        return true;
     } else {
+        authRes.send({"ERR" : "AUTH_UNSUPPORTED"});
         console.log('Unsupported authenticating method required. Method ID: ' + initialRes.validActions[0].type);
+        return false;
     }
 }
 
 session.on('authenticated', async () => {
     console.log('Authentication Successful');
+    authRes.send();
     fs.writeFile(path.join(__dirname, '../store/token'), session.refreshToken);
 });
 
@@ -65,15 +89,3 @@ client.on('accountInfo', nick => {
 client.on('friendMessage', async steamID => {
     await client.chat.sendFriendMessage(steamID, 'UWU');
 });
-
-logOnWithTokenFile();
-
-function executeAsBot(js) {
-    try {
-        new Function(js)();
-    } catch (e) {
-        console.log(e);
-        return false;
-    }
-    return true;
-}

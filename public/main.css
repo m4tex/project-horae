@@ -114,11 +114,20 @@ main {
 }
 
 section {
-    padding: 10px;
     display: flex;
     position: relative;
-    flex: 1;
+
+    padding: 10px;
     background-color: rgba(0, 0, 0, 0.2);
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+
+    color: azure;
+}
+
+section > h2 {
+    text-align: center;
 }
 
 .section-modal[visible=false], .section-modal:not([visible]) {
@@ -179,4 +188,12 @@ button {
     margin: auto;
     padding: 6px 16px;
     font-size: 16px;
+}
+
+.auth-msg {
+    color: red;
+}
+
+.auth-msg[visible=false], .auth-msg:not([visible]) {
+    display: none;
 }
